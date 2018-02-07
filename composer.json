@@ -1,0 +1,44 @@
+{
+    "name": "gorilladash/outlook-formatter",
+    "description": "Scan all dom and add/replace width attribute, make sure table/img in outlook desktop will be working",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "outlook",
+        "formatter"
+    ],
+    "homepage": "https://github.com/GorillaDash/outlook-formatter",
+    "authors": [
+        {
+            "name": "Casper Lai",
+            "email": "casper@gorilladash.com"
+        },
+        {
+            "name": "Anthony Gherghetta",
+            "email": "anthony@gorilladash.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "illuminate/support": "^5.5",
+        "sunra/php-simple-html-dom-parser": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "GorillaDash\\OutlookFormatter\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GorillaDash\\OutlookFormatter\\FormatterServiceProvider"
+            ],
+            "aliases": {
+                "OutlookFormatter": "GorillaDash\\OutlookFormatter\\FormatterFacade"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
