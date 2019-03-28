@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace GorillaDash\OutlookFormatter;
 
+use Illuminate\Support\Arr;
 use Sunra\PhpSimple\HtmlDomParser;
 
 /**
@@ -59,8 +60,9 @@ class Formatter
     public function format($html)
     {
         $doms = HtmlDomParser::str_get_html($html);
-        $body = $doms->find('body')[0];
-        foreach ($body->children as $dom) {
+        $body = Arr::get($doms->find('body'), '0');
+        $children = optional($body)->children ?? [];
+        foreach ($children as $dom) {
             $width = $this->getWidth($dom, $this->maxWidth);
             $this->setWidth($dom, $width);
             $this->setHeight($dom, $this->getHeight($dom));
