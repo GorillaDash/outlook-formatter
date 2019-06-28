@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace GorillaDash\OutlookFormatter;
 
 use Illuminate\Support\Arr;
-use Sunra\PhpSimple\HtmlDomParser;
+use KubAT\PhpSimple\HtmlDomParser;
 
 /**
  * Class Formatter
