@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace GorillaDash\OutlookFormatter;
 
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use KubAT\PhpSimple\HtmlDomParser;
 
 /**
@@ -23,9 +24,12 @@ class Formatter
     /**
      * Auto center
      *
-     * @var bool
+     * @var array
      */
-    private $autoCenter = false;
+    private $autoCenter = [
+        'table' => false,
+        'image' => false,
+    ];
 
     /**
      * Formatter constructor.
@@ -46,6 +50,9 @@ class Formatter
      */
     public function setAutoCenter($value)
     {
+        if (!is_array($value)) {
+            throw new InvalidArgumentException('Auto Center only accept array');
+        }
         $this->autoCenter = $value;
         return $this;
     }
@@ -89,7 +96,7 @@ class Formatter
                 $parent = $this->getWidth($element, $max);
                 $this->setWidth($element, $parent);
                 $this->setHeight($element, $this->getHeight($element));
-                if ($this->autoCenter) {
+                if ($this->canAutoCenter($element->tag)) {
                     $this->alignCenter($element);
                 }
             } else {
@@ -100,6 +107,24 @@ class Formatter
                 $this->childrenElements($element, $parent);
             }
         }
+    }
+
+    /**
+     * @param $tag
+     *
+     * @return bool
+     */
+    private function canAutoCenter($tag)
+    {
+        if (in_array($tag, ['table', 'td']) && Arr::get($this->autoCenter, 'table', false)) {
+            return true;
+        }
+
+        if ($tag === 'img' && Arr::get($this->autoCenter, 'image', false)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
